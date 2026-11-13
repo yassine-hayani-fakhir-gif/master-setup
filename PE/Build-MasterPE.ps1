@@ -3,12 +3,23 @@
 param(
     [Parameter(Mandatory=$true)][string]$WindowsIso,
     [Parameter(Mandatory=$true)][string]$OutputFolder,
+    [string]$OfficeImage,
+    [string]$AppsFolder,
     [string]$AdkRoot="${env:ProgramFiles(x86)}\Windows Kits\10\Assessment and Deployment Kit"
 )
 $ErrorActionPreference='Stop'
 if(![Environment]::Is64BitProcess){throw 'PowerShell x64 requis.'}
 $WindowsIso=(Resolve-Path -LiteralPath $WindowsIso).Path
 $OutputFolder=[IO.Path]::GetFullPath($OutputFolder)
+if($OfficeImage){
+    $OfficeImage=(Resolve-Path -LiteralPath $OfficeImage).Path
+    if([IO.Path]::GetExtension($OfficeImage) -notin '.iso','.img'){throw 'Office must be an ISO or IMG file.'}
+}
+if($AppsFolder){
+    $AppsFolder=(Resolve-Path -LiteralPath $AppsFolder).Path
+    if(!(Test-Path -LiteralPath $AppsFolder -PathType Container)){throw 'AppsFolder must be a directory.'}
+}
+
 if(Test-Path -LiteralPath $OutputFolder){throw 'Choisir un nouveau dossier de sortie vide (inexistant).'}
 # Paths used by ADK batch scripts must not contain command-shell metacharacters.
 foreach($path in @($OutputFolder,$AdkRoot)){if($path -match '["%!?&|<>^\r\n]'){throw 'Choisir un chemin sans caracteres speciaux pour les outils ADK.'}}
@@ -30,7 +41,7 @@ try {
     $mount=Join-Path $work 'mount';$wim=Join-Path $work 'media\sources\boot.wim'
     Run-Dism @('/Mount-Image',"/ImageFile:$wim",'/Index:1',"/MountDir:$mount")
     $mounted=$true
-    foreach($package in @('WinPE-WMI','WinPE-NetFX','WinPE-Scripting','WinPE-PowerShell','WinPE-StorageWMI','WinPE-DismCmdlets')){
+    foreach($package in @('WinPE-WMI','WinPE-SecureStartup','WinPE-NetFX','WinPE-Scripting','WinPE-PowerShell','WinPE-StorageWMI','WinPE-DismCmdlets')){
         Run-Dism @("/Image:$mount",'/Add-Package',('/PackagePath:'+(Join-Path $oc ($package+'.cab'))))
         $language=Join-Path $oc ('en-us\'+$package+'_en-us.cab')
         if(Test-Path -LiteralPath $language){Run-Dism @("/Image:$mount",'/Add-Package',"/PackagePath:$language")}
@@ -60,6 +71,12 @@ try {
     . "$root\Kit\PEHelpers.ps1"
     Copy-PEVerified $candidates[0] (Join-Path $media ([IO.Path]::GetFileName($candidates[0])))
     foreach($folder in @('Office','Apps')){[void][IO.Directory]::CreateDirectory((Join-Path $OutputFolder ('MasterSetupMedia\'+$folder)))}
+    if($OfficeImage){Copy-PEVerified $OfficeImage (Join-Path $OutputFolder ('MasterSetupMedia\Office\'+[IO.Path]::GetFileName($OfficeImage)))}
+    if($AppsFolder){
+        foreach($package in Get-ChildItem -LiteralPath $AppsFolder -File | Where-Object {$_.Extension -in '.exe','.msi'}) {
+            Copy-PEVerified $package.FullName (Join-Path $OutputFolder ('MasterSetupMedia\Apps\'+$package.Name))
+        }
+    }
     Write-Host 'READY: copy MasterSetup-WinPE-x64.iso and MasterSetupMedia onto your existing Ventoy data partition.'
     Write-Host 'Add Office ISO/IMG and standalone app installers to their folders. Boot this ISO in UEFI mode.'
     Write-Host 'The WinPE-build folder is build workspace only; do not copy it to USB.'

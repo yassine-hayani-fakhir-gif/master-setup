@@ -95,7 +95,7 @@ function Show-SetupOptions {
     $hint2=New-Object Windows.Forms.Label
     $hint2.SetBounds(24,441,690,88)
     $hint2.Text='Start this workflow from a working Windows system. Keep the USB connected until all installations finish. Use complete installers for offline operation. FAT / FAT32 sources are not supported by this workflow.'
-    if($PEMode){$hint.Text='Experimental WinPE: internal disk is erased after confirmation, then files are staged locally. Choose files on NTFS / exFAT USB.';$hint2.Text='After copy verification: USB can be removed. This experimental mode accepts local apps or no apps. Windows uses a WIM/ESD prepared with the WinPE builder.'}
+    if($PEMode){$hint.Text='Experimental WinPE: internal disk is erased after confirmation, then files are staged locally. Choose files on NTFS / exFAT USB.';$hint2.Text='Remove USB only after image application and internal boot preparation. This experimental mode accepts local apps or no apps. Windows uses a WIM/ESD prepared with the WinPE builder.'}
     $dialog.Controls.Add($hint2)
     $go=New-Object Windows.Forms.Button
     $go.SetBounds(390,560,320,38);$go.Text='Continue to disks and Windows ISO'
@@ -109,6 +109,7 @@ function Show-SetupOptions {
         }
         $dialog.DialogResult='OK';$dialog.Close()
     })
+    if($PEMode){$go.Text='Continue to disks and Windows image'}
     $dialog.Controls.Add($go);$dialog.AcceptButton=$go
     try {
         Enable-MasterLanguage $dialog

@@ -1,0 +1,372 @@
+﻿{
+  "Continue": {
+    "fr": "Continuer",
+    "ar": "متابعة",
+    "es": "Continuar"
+  },
+  "Open logs": {
+    "fr": "Ouvrir les journaux",
+    "ar": "فتح السجلات",
+    "es": "Abrir registros"
+  },
+  "Open detailed log": {
+    "fr": "Ouvrir le journal détaillé",
+    "ar": "فتح السجل المفصل",
+    "es": "Abrir registro detallado"
+  },
+  "Skip this app": {
+    "fr": "Ignorer cette application",
+    "ar": "تخطي هذا التطبيق",
+    "es": "Omitir esta aplicación"
+  },
+  "Install apps on this PC": {
+    "fr": "Installer des applications sur ce PC",
+    "ar": "تثبيت التطبيقات على هذا الجهاز",
+    "es": "Instalar aplicaciones en este PC"
+  },
+  "Install automatically on this machine": {
+    "fr": "Installer automatiquement sur cet ordinateur",
+    "ar": "التثبيت التلقائي على هذا الجهاز",
+    "es": "Instalar automáticamente en este equipo"
+  },
+  "Resume an existing installation": {
+    "fr": "Reprendre une installation",
+    "ar": "استئناف التثبيت",
+    "es": "Reanudar una instalación"
+  },
+  "Offline apps / package guide": {
+    "fr": "Applications hors ligne / guide",
+    "ar": "دليل التطبيقات دون إنترنت",
+    "es": "Aplicaciones sin conexión / guía"
+  },
+  "From your Windows image to your everyday apps.": {
+    "fr": "De votre image Windows à vos applications.",
+    "ar": "من صورة Windows إلى تطبيقاتك اليومية.",
+    "es": "De tu imagen de Windows a tus aplicaciones."
+  },
+  "DEVICE OVERVIEW  /  Check the target before deployment.": {
+    "fr": "APPAREIL / Vérifier la cible avant installation.",
+    "ar": "الجهاز / تحقق من الجهاز المستهدف قبل التثبيت.",
+    "es": "EQUIPO / Comprueba el destino antes de instalar."
+  },
+  "USB MEDIA  /  DISK SELECTION  /  AUTOMATIC RESTART": {
+    "fr": "SUPPORT USB / CHOIX DU DISQUE / REDÉMARRAGE",
+    "ar": "وسائط USB / اختيار القرص / إعادة التشغيل",
+    "es": "USB / SELECCIÓN DE DISCO / REINICIO"
+  },
+  "Reading...": {
+    "fr": "Lecture...",
+    "ar": "جارٍ القراءة...",
+    "es": "Leyendo..."
+  },
+  "Your input": {
+    "fr": "Votre choix",
+    "ar": "اختيارك",
+    "es": "Tu selección"
+  },
+  "Working...": {
+    "fr": "En cours...",
+    "ar": "جارٍ العمل...",
+    "es": "En curso..."
+  },
+  "Finished": {
+    "fr": "Terminé",
+    "ar": "اكتمل",
+    "es": "Finalizado"
+  },
+  "Failed": {
+    "fr": "Échec",
+    "ar": "فشل",
+    "es": "Error"
+  },
+  "Cancelled": {
+    "fr": "Annulé",
+    "ar": "أُلغي",
+    "es": "Cancelado"
+  },
+  "Finished with warnings": {
+    "fr": "Terminé avec avertissements",
+    "ar": "اكتمل مع تنبيهات",
+    "es": "Finalizado con advertencias"
+  },
+  "Waiting for your input": {
+    "fr": "En attente de votre choix",
+    "ar": "في انتظار اختيارك",
+    "es": "Esperando tu selección"
+  },
+  "Running": {
+    "fr": "En cours",
+    "ar": "قيد التنفيذ",
+    "es": "En curso"
+  },
+  "Technical details are available in the log.": {
+    "fr": "Les détails techniques sont dans le journal.",
+    "ar": "التفاصيل التقنية متاحة في السجل.",
+    "es": "Los detalles técnicos están en el registro."
+  },
+  "Review individual results below; detailed output is in the log.": {
+    "fr": "Consultez les résultats ci-dessous et le journal.",
+    "ar": "راجع النتائج أدناه والسجل المفصل.",
+    "es": "Revisa los resultados y el registro detallado."
+  },
+  "Choices are case-insensitive. Password case is preserved.": {
+    "fr": "Choix : majuscules ou minuscules. Mot de passe inchangé.",
+    "ar": "الاختيارات تقبل الأحرف الكبيرة والصغيرة. كلمة السر تبقى كما كتبتها.",
+    "es": "Las opciones ignoran mayúsculas. La contraseña se conserva."
+  },
+  "01 / MEDIA AND APPLICATIONS": {
+    "fr": "01 / SUPPORTS ET APPLICATIONS",
+    "ar": "01 / الوسائط والتطبيقات",
+    "es": "01 / MEDIOS Y APLICACIONES"
+  },
+  "Download Windows": {
+    "fr": "Télécharger Windows",
+    "ar": "تنزيل Windows",
+    "es": "Descargar Windows"
+  },
+  "Download Office": {
+    "fr": "Télécharger Office",
+    "ar": "تنزيل Office",
+    "es": "Descargar Office"
+  },
+  "Install Office after Windows (provide ISO / IMG)": {
+    "fr": "Installer Office après Windows (ISO / IMG)",
+    "ar": "تثبيت Office بعد Windows (ISO / IMG)",
+    "es": "Instalar Office después de Windows (ISO / IMG)"
+  },
+  "Choose app installers": {
+    "fr": "Choisir les installateurs",
+    "ar": "اختيار ملفات التثبيت",
+    "es": "Elegir instaladores"
+  },
+  "Choose Ninite.exe": {
+    "fr": "Choisir Ninite.exe",
+    "ar": "اختيار Ninite.exe",
+    "es": "Elegir Ninite.exe"
+  },
+  "Continue to disks and Windows ISO": {
+    "fr": "Continuer vers les disques et ISO Windows",
+    "ar": "المتابعة إلى الأقراص وصورة Windows",
+    "es": "Continuar a discos e ISO de Windows"
+  },
+  "No packages selected. Choose your app installers below.": {
+    "fr": "Aucun paquet sélectionné. Choisissez les installateurs.",
+    "ar": "لم تحدد أي تطبيق. اختر ملفات التثبيت أدناه.",
+    "es": "Sin paquetes seleccionados. Elige los instaladores."
+  },
+  "WinGet - online app selection": {
+    "fr": "WinGet - applications en ligne",
+    "ar": "WinGet - تطبيقات عبر الإنترنت",
+    "es": "WinGet - aplicaciones en línea"
+  },
+  "My Ninite installer": {
+    "fr": "Mon installateur Ninite",
+    "ar": "ملف تثبيت Ninite",
+    "es": "Mi instalador Ninite"
+  },
+  "No applications": {
+    "fr": "Aucune application",
+    "ar": "بدون تطبيقات",
+    "es": "Sin aplicaciones"
+  },
+  "Local EXE / MSI installers (USB)": {
+    "fr": "Installateurs EXE / MSI locaux (USB)",
+    "ar": "ملفات EXE / MSI محلية (USB)",
+    "es": "Instaladores EXE / MSI locales (USB)"
+  },
+  "YOUR APPS. ONE INSTALLATION QUEUE.": {
+    "fr": "VOS APPLIS. UNE FILE D’INSTALLATION.",
+    "ar": "تطبيقاتك في قائمة تثبيت واحدة.",
+    "es": "TUS APPS. UNA COLA DE INSTALACIÓN."
+  },
+  "Add EXE / MSI": {
+    "fr": "Ajouter EXE / MSI",
+    "ar": "إضافة EXE / MSI",
+    "es": "Añadir EXE / MSI"
+  },
+  "Remove": {
+    "fr": "Retirer",
+    "ar": "إزالة",
+    "es": "Quitar"
+  },
+  "Up": {
+    "fr": "Monter",
+    "ar": "أعلى",
+    "es": "Subir"
+  },
+  "Down": {
+    "fr": "Descendre",
+    "ar": "أسفل",
+    "es": "Bajar"
+  },
+  "Configure selected app": {
+    "fr": "Configurer l’application",
+    "ar": "إعداد التطبيق المحدد",
+    "es": "Configurar aplicación"
+  },
+  "Install selected apps on this PC": {
+    "fr": "Installer les applications sélectionnées",
+    "ar": "تثبيت التطبيقات المحددة",
+    "es": "Instalar aplicaciones seleccionadas"
+  },
+  "Use selected installers": {
+    "fr": "Utiliser ces installateurs",
+    "ar": "استخدام الملفات المحددة",
+    "es": "Usar instaladores seleccionados"
+  },
+  "Yes - erase and install": {
+    "fr": "Oui - effacer et installer",
+    "ar": "نعم - مسح وتثبيت",
+    "es": "Sí - borrar e instalar"
+  },
+  "No - cancel": {
+    "fr": "Non - annuler",
+    "ar": "لا - إلغاء",
+    "es": "No - cancelar"
+  },
+  "Review installation - Master Setup": {
+    "fr": "Vérifier l’installation - Master Setup",
+    "ar": "مراجعة التثبيت - Master Setup",
+    "es": "Revisar instalación - Master Setup"
+  },
+  "Administrator account name": {
+    "fr": "Nom du compte administrateur",
+    "ar": "اسم حساب المسؤول",
+    "es": "Nombre de cuenta de administrador"
+  },
+  "Computer name (Enter = automatic)": {
+    "fr": "Nom du PC (Entrée = automatique)",
+    "ar": "اسم الجهاز (Enter = تلقائي)",
+    "es": "Nombre del equipo (Enter = automático)"
+  },
+  "Optional password (Enter = no password)": {
+    "fr": "Mot de passe facultatif (Entrée = aucun)",
+    "ar": "كلمة سر اختيارية (Enter = بدون كلمة سر)",
+    "es": "Contraseña opcional (Enter = sin contraseña)"
+  },
+  "Confirm password": {
+    "fr": "Confirmer le mot de passe",
+    "ar": "تأكيد كلمة السر",
+    "es": "Confirmar contraseña"
+  },
+  "Edition number to install": {
+    "fr": "Numéro de l’édition à installer",
+    "ar": "رقم الإصدار المراد تثبيته",
+    "es": "Número de edición a instalar"
+  },
+  "Keyboard: choose a number from 1 to 7": {
+    "fr": "Clavier : choisir un numéro de 1 à 7",
+    "ar": "لوحة المفاتيح: اختر رقماً من 1 إلى 7",
+    "es": "Teclado: elige un número de 1 a 7"
+  },
+  "INTERNAL disk number to erase and use for Windows (n = cancel)": {
+    "fr": "Numéro du disque INTERNE à effacer (n = annuler)",
+    "ar": "رقم القرص الداخلي لمسحه وتثبيت Windows (n = إلغاء)",
+    "es": "Disco INTERNO a borrar para Windows (n = cancelar)"
+  },
+  "REVIEW YOUR INSTALLATION": {
+    "fr": "VÉRIFIEZ VOTRE INSTALLATION",
+    "ar": "راجع اختيارات التثبيت",
+    "es": "REVISA TU INSTALACIÓN"
+  },
+  "Computer:": {
+    "fr": "Ordinateur :",
+    "ar": "الجهاز:",
+    "es": "Equipo:"
+  },
+  "Windows ISO:": {
+    "fr": "ISO Windows :",
+    "ar": "صورة Windows:",
+    "es": "ISO de Windows:"
+  },
+  "Edition:": {
+    "fr": "Édition :",
+    "ar": "الإصدار:",
+    "es": "Edición:"
+  },
+  "Image language:": {
+    "fr": "Langue de l’image :",
+    "ar": "لغة الصورة:",
+    "es": "Idioma de la imagen:"
+  },
+  "Keyboard:": {
+    "fr": "Clavier :",
+    "ar": "لوحة المفاتيح:",
+    "es": "Teclado:"
+  },
+  "Firmware:": {
+    "fr": "Micrologiciel :",
+    "ar": "البرنامج الثابت:",
+    "es": "Firmware:"
+  },
+  "DISK TO ERASE:": {
+    "fr": "DISQUE À EFFACER :",
+    "ar": "القرص الذي سيتم مسحه:",
+    "es": "DISCO A BORRAR:"
+  },
+  "Disk serial:": {
+    "fr": "Numéro de série du disque :",
+    "ar": "الرقم التسلسلي للقرص:",
+    "es": "Número de serie del disco:"
+  },
+  "USB source (preserved):": {
+    "fr": "Source USB (conservée) :",
+    "ar": "مصدر USB (لن يتم مسحه):",
+    "es": "USB de origen (conservado):"
+  },
+  "Applications:": {
+    "fr": "Applications :",
+    "ar": "التطبيقات:",
+    "es": "Aplicaciones:"
+  },
+  "Administrator:": {
+    "fr": "Administrateur :",
+    "ar": "المسؤول:",
+    "es": "Administrador:"
+  },
+  "Computer name:": {
+    "fr": "Nom du PC :",
+    "ar": "اسم الجهاز:",
+    "es": "Nombre del equipo:"
+  },
+  "Password:": {
+    "fr": "Mot de passe :",
+    "ar": "كلمة السر:",
+    "es": "Contraseña:"
+  },
+  "ALL partitions and data on the selected internal disk will be deleted.": {
+    "fr": "TOUTES les partitions et données du disque choisi seront supprimées.",
+    "ar": "سيتم حذف جميع الأقسام والبيانات على القرص الداخلي المحدد.",
+    "es": "Se borrarán TODAS las particiones y datos del disco seleccionado."
+  },
+  "Continue only after checking your backup and these selections.": {
+    "fr": "Continuez après vérification de la sauvegarde et des choix.",
+    "ar": "تابع فقط بعد التأكد من النسخة الاحتياطية والاختيارات.",
+    "es": "Continúa solo tras revisar la copia de seguridad y las opciones."
+  },
+  "No password": {
+    "fr": "Sans mot de passe",
+    "ar": "بدون كلمة سر",
+    "es": "Sin contraseña"
+  },
+  "Set (hidden)": {
+    "fr": "Défini (masqué)",
+    "ar": "محددة (مخفية)",
+    "es": "Definida (oculta)"
+  },
+  "Automatic": {
+    "fr": "Automatique",
+    "ar": "تلقائي",
+    "es": "Automático"
+  },
+  "Not selected": {
+    "fr": "Non sélectionné",
+    "ar": "غير محدد",
+    "es": "No seleccionado"
+  },
+  "None": {
+    "fr": "Aucun",
+    "ar": "لا شيء",
+    "es": "Ninguno"
+  }
+}

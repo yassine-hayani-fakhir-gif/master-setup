@@ -1,0 +1,38 @@
+# Deployment payloads, credentials and personal data
+AtelierAuto/
+AtelierPE-*/
+**/answer-*.xml
+**/Autounattend.xml
+**/target.ini
+**/restore-disks.json
+*.log
+*.iso
+*.img
+*.wim
+*.esd
+*.pfx
+*.p12
+.env
+# Local build outputs
+*.o
+*.obj
+*.a
+*.pdb
+*.ilk
+TheMaster.exe
+Kit/DiskGuard.exe
+MasterSetup.exe
+MasterStage-*/
+**/options.json
+**/local-apps-results.jsonl
+**/results.jsonl
+**/local-apps-completed/
+**/Apps/Local/
+**/Apps/Ninite.exe
+**/activation.txt
+**/BCD-backup
+**/Annulation.txt
+
+# Generated release manifests and developer preferences
+SHA256SUMS.txt
+ui-language.txt

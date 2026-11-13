@@ -1,0 +1,11 @@
+LIBRARY kernel32.dll
+EXPORTS
+GetModuleFileNameW
+GetPrivateProfileStringW
+CreateFileW
+DeviceIoControl
+CloseHandle
+ExitProcess
+GetFirmwareType
+GetCommandLineW
+WriteFile

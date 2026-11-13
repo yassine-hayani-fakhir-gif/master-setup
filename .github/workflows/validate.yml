@@ -33,6 +33,9 @@ jobs:
           call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           if errorlevel 1 exit /b 1
           powershell.exe -NoLogo -NoProfile -File scripts\Build-Windows.ps1
+      - name: Smoke test compiled launcher (no deployment)
+        shell: powershell
+        run: ./Tests/NativeLauncherChecks.ps1
       - name: Package unsigned preview with source provenance and SHA-256 hashes
         shell: powershell
         run: ./scripts/Package-Preview.ps1

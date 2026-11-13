@@ -34,9 +34,16 @@ $root=Split-Path $PSScriptRoot -Parent
 $work=Join-Path $OutputFolder 'WinPE-build'
 [void][IO.Directory]::CreateDirectory($OutputFolder)
 $mounted=$false;$isoMounted=$false
+function Invoke-AdkBatch([string]$Command) {
+    $batch=Join-Path $OutputFolder 'adk-step.cmd'
+    $lines=@('@echo off','setlocal DisableDelayedExpansion',('call "'+$envCmd+'"'),'if errorlevel 1 exit /b 1',$Command,'exit /b %errorlevel%')
+    [IO.File]::WriteAllLines($batch,$lines,[Text.Encoding]::Default)
+    & $env:ComSpec /d /c $batch
+    if($LASTEXITCODE -ne 0){throw "ADK command failed: $LASTEXITCODE"}
+}
 function Run-Dism([string[]]$Arguments){& dism.exe @Arguments;if($LASTEXITCODE -ne 0){throw "DISM exit $LASTEXITCODE"}}
 try {
-    & $env:ComSpec /d /s /c ('"call "'+$envCmd+'" && call "'+$copype+'" amd64 "'+$work+'""')
+    Invoke-AdkBatch ('call "'+$copype+'" amd64 "'+$work+'"')
     if($LASTEXITCODE -ne 0){throw 'Creation du dossier WinPE refusee par ADK.'}
     $mount=Join-Path $work 'mount';$wim=Join-Path $work 'media\sources\boot.wim'
     Run-Dism @('/Mount-Image',"/ImageFile:$wim",'/Index:1',"/MountDir:$mount")
@@ -56,7 +63,7 @@ try {
     [IO.File]::WriteAllLines((Join-Path $mount 'Windows\System32\startnet.cmd'),$start,[Text.Encoding]::ASCII)
     Run-Dism @('/Unmount-Image',"/MountDir:$mount",'/Commit');$mounted=$false
     $bootIso=Join-Path $OutputFolder 'MasterSetup-WinPE-x64.iso'
-    & $env:ComSpec /d /s /c ('"call "'+$envCmd+'" && call "'+$make+'" /ISO "'+$work+'" "'+$bootIso+'""')
+    Invoke-AdkBatch ('call "'+$make+'" /ISO "'+$work+'" "'+$bootIso+'"')
     if($LASTEXITCODE -ne 0){throw 'Creation ISO WinPE echouee.'}
     . "$root\Kit\LiveCopy.ps1"
     . "$root\Kit\PEHelpers.ps1"

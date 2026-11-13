@@ -16,8 +16,8 @@ Multi-factor authentication must be enabled for GitHub and SignPath access.
 Changes from outside contributors require review before merging or releasing.
 
 The executable launcher and DiskGuard must be built in a verifiable Windows CI
-workflow. Product name and version metadata must be added to both native binaries
-and enforced in the signing configuration before applying. Existing local binary
+workflow. Product name and version metadata are embedded in both native binaries and
+verified by CI. They must also be enforced in the future signing configuration. Existing local binary
 builds are not represented as SignPath-verified builds.
 
 See PRIVACY.md for local data, network operations and third-party behavior.

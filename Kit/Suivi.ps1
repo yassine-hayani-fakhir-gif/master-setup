@@ -16,7 +16,7 @@ $wake=New-Object Threading.AutoResetEvent($false)
 $state=[hashtable]::Synchronized(@{Prompt=$null; Answer=$null; Failed=$false; Warnings=$false; Cancelled=$false})
 $state.ProfileRoot=$ProfileRoot
 $f=New-Object Windows.Forms.Form
-$f.Text="Master Setup 0.18.1-preview | Progress - $Task"
+$f.Text=if($Task -eq 'DeployPE'){'Master Setup | Boot Preview | 0.19 experimental'}else{"Master Setup 0.18.1-preview | Progress - $Task"}
 $f.StartPosition='CenterScreen'
 $wa=[Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 $f.Size=New-Object Drawing.Size([Math]::Min(960,$wa.Width-24),[Math]::Min(740,$wa.Height-24))
@@ -185,7 +185,7 @@ $timer.Add_Tick({
         }
     }
     $identityPanel.Text="Target computer: $($state.Computer)`r`nSession : $($state.CurrentName) | $($state.Firmware) | UUID : $($state.MachineId)`r`n$($state.TargetDisk) | Planned name: $($state.PlannedName)"
-    if($state.UsbReady){$usbStatus.Text='   USB CAN BE REMOVED - local files verified';$usbStatus.ForeColor=[Drawing.ColorTranslator]::FromHtml('#53E4D0')}
+    if($state.UsbReady){$usbStatus.Text='   USB CAN BE REMOVED - local boot and packages prepared';$usbStatus.ForeColor=[Drawing.ColorTranslator]::FromHtml('#53E4D0')}
     $stageLabel.Text=[string]$state.Stage
     $pr=$state.Progress
     if($pr -and $pr.Total -gt 0) {

@@ -201,3 +201,11 @@ This preview is unsigned. See [Code signing policy](docs/CODE_SIGNING_POLICY.md)
 [privacy](docs/PRIVACY.md), [removal instructions](docs/UNINSTALL.md), and
 [SignPath application preparation](docs/SIGNPATH_APPLICATION.md). No application
 has been submitted and eligibility is not yet confirmed.
+
+## Experimental boot mode
+
+For a blank disk or Windows that cannot start, see [Boot Preview](docs/BOOT_MODE.md).
+This separate UEFI WinPE path stages local packages and releases USB only after
+Windows image application and internal boot preparation. It requires building a
+WinPE ISO with Microsoft ADK on Windows and disposable-machine validation.
+The working-Windows installation route is unchanged.

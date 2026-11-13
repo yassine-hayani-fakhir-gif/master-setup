@@ -33,3 +33,34 @@ function Copy-PEVerified([string]$Source,[string]$Destination) {
     Write-Host ('Verification SHA256 : '+[IO.Path]::GetFileName($Destination))
     if((Get-FileHash -LiteralPath $Destination -Algorithm SHA256).Hash -ne $hash){throw ('Copie non conforme : '+$Destination)}
 }
+
+function Assert-PESourceBindings($Bindings) {
+    foreach($binding in $Bindings) {
+        $number=Get-PESourceDisk $binding.Path
+        $identity=Get-PEDiskIdentity (Get-Disk -Number $number -ErrorAction Stop)
+        if($number -ne $binding.Number -or $identity -cne $binding.Identity) {
+            throw 'Source device changed since selection. No disk changes allowed.'
+        }
+    }
+}
+function Copy-PETreeVerified([string]$Source,[string]$Destination) {
+    foreach($file in Get-ChildItem -LiteralPath $Source -File -Recurse) {
+        $relative=$file.FullName.Substring($Source.TrimEnd('\').Length+1)
+        Copy-PEVerified $file.FullName (Join-Path $Destination $relative)
+    }
+}
+function Assert-PEReleaseReady([bool]$CopiesVerified,[bool]$ImageApplied,[bool]$BootConfigured,
+                               [string]$OsRoot,[string]$EfiRoot,[string]$KitRoot) {
+    if(!$CopiesVerified -or !$ImageApplied -or !$BootConfigured) {
+        throw 'USB still required: local deployment is incomplete.'
+    }
+    foreach($file in @((Join-Path $OsRoot 'Windows\System32\winload.efi'),
+        (Join-Path $OsRoot 'Windows\Panther\unattend.xml'),
+        (Join-Path $EfiRoot 'EFI\Boot\bootx64.efi'),
+        (Join-Path $EfiRoot 'EFI\Microsoft\Boot\BCD'),
+        (Join-Path $KitRoot 'Finish.cmd'),(Join-Path $KitRoot 'Finish.ps1'),
+        (Join-Path $KitRoot 'Suivi.ps1'),(Join-Path $KitRoot 'options.json'),
+        (Join-Path $KitRoot 'local-source-relative.txt'))) {
+        if(!(Test-Path -LiteralPath $file -PathType Leaf)){throw "USB release blocked: missing $file"}
+    }
+}

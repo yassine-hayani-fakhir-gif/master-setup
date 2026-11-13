@@ -22,3 +22,26 @@ jobs:
         run: |
           gcc -O1 -fshort-wchar -maccumulate-outgoing-args Tests/launcher_test.c -o /tmp/launcher-test
           /tmp/launcher-test
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build x64 executables and verify version resources
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          if errorlevel 1 exit /b 1
+          powershell.exe -NoLogo -NoProfile -File scripts\Build-Windows.ps1
+      - name: Package unsigned preview with source provenance and SHA-256 hashes
+        shell: powershell
+        run: ./scripts/Package-Preview.ps1
+      - name: Upload unsigned preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: MasterSetup-0.18.1-UNSIGNED-x64
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30

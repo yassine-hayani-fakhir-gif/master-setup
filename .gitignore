@@ -36,3 +36,6 @@ MasterStage-*/
 # Generated release manifests and developer preferences
 SHA256SUMS.txt
 ui-language.txt
+
+dist/
+*.res

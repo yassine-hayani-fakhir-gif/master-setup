@@ -11,9 +11,9 @@ try {
         & $rc.Source /nologo "/fo$name.res" "$root\src\$name.rc"
         if($LASTEXITCODE -ne 0){throw "Resource compilation failed: $name"}
     }
-    & $compiler.Source /nologo /O1 /GS- /Zl /W3 "$root\src\Launcher.c" Launcher.res "/Fe:$root\MasterSetup.exe" /link /nodefaultlib /entry:entry /subsystem:windows /dynamicbase /nxcompat kernel32.lib user32.lib
+    & $compiler.Source /nologo /O1 /clang:-ffreestanding /clang:-fno-builtin /GS- /Zl /W3 "$root\src\Launcher.c" Launcher.res "/Fe:$root\MasterSetup.exe" /link /nodefaultlib /entry:entry /subsystem:windows /dynamicbase /nxcompat kernel32.lib user32.lib
     if($LASTEXITCODE -ne 0){throw 'Launcher compilation failed.'}
-    & $compiler.Source /nologo /O1 /GS- /Zl /W3 "$root\Kit\native\DiskGuard.c" DiskGuard.res "/Fe:$root\Kit\DiskGuard.exe" /link /nodefaultlib /entry:entry /subsystem:console /dynamicbase /nxcompat kernel32.lib
+    & $compiler.Source /nologo /O1 /clang:-ffreestanding /clang:-fno-builtin /GS- /Zl /W3 "$root\Kit\native\DiskGuard.c" DiskGuard.res "/Fe:$root\Kit\DiskGuard.exe" /link /nodefaultlib /entry:entry /subsystem:console /dynamicbase /nxcompat kernel32.lib
     if($LASTEXITCODE -ne 0){throw 'DiskGuard compilation failed.'}
 } finally {Pop-Location;Remove-Item $build -Recurse -Force}
 Write-Host 'Unsigned build complete. Review and Authenticode-sign before a public release.'

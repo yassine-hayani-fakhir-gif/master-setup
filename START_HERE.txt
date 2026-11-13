@@ -1,0 +1,10 @@
+MASTER SETUP 0.18.1 PREVIEW
+Developed by Yassine
+
+Extract the entire archive. Double-click MasterSetup.exe. No command window is required.
+Keep the EXE, App.ps1 and Kit together in the extracted folder.
+Start-MasterSetup.cmd is only a troubleshooting fallback.
+First test: Install apps on this PC. No Windows reinstallation needed.
+Read APPS_OFFLINE.txt for the correct packages.
+Read docs/TESTING.md before real deployment.
+No Windows or Office activation commands are included.

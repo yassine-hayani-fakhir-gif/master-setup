@@ -1,0 +1,37 @@
+MASTER SETUP 0.17 PREVIEW / Developed by Yassine
+
+Start-MasterSetup.cmd -> Install apps on this PC
+Test apps without reinstalling Windows or Office.
+
+Use full official packages:
+Chrome: GoogleChromeStandaloneEnterprise64.msi
+https://chromeenterprise.google/download/
+Brave: BraveBrowserStandaloneSetup.exe
+https://github.com/brave/brave-browser/releases/latest
+WinRAR: winrar-x64-<version><language>.exe
+https://www.rarlab.com/download.htm
+VLC: vlc-<version>-win64.exe
+https://www.videolan.org/vlc/download-windows.html
+
+Do not rename web download launchers. Offline capability depends on package
+contents, not the EXE/MSI extension. Keep official EXE filenames for detection.
+For online automation use the WinGet or Ninite choice in preparation.
+
+Unknown EXE: Configure selected app -> Custom silent arguments.
+Use only documented arguments supplied by the publisher. This is not a shell
+command field. Manual installation is available only when explicitly selected.
+MSI defaults to quiet mode. Third-party installers are not included.
+
+Close existing apps before installing or updating. Keep USB connected.
+A 15-minute timeout stops the queue without killing the process.
+Inspect the installer before retrying or skipping.
+
+Read README.md and docs/TESTING.md. This is an unsigned preview; Windows runtime
+and real-installation tests are required before production use.
+
+Profile references:
+https://github.com/microsoft/winget-pkgs/blob/master/manifests/v/VideoLAN/VLC/3.0.21/VideoLAN.VLC.installer.yaml
+https://mailman.videolan.org/pipermail/vlc-commits/2013-November/023028.html
+https://support.google.com/chrome/a/answer/7650247
+https://github.com/microsoft/winget-pkgs/blob/master/manifests/b/Brave/Brave/137.1.79.126/Brave.Brave.installer.yaml
+https://github.com/microsoft/winget-pkgs/blob/master/manifests/r/RARLab/WinRAR/7.12.0/RARLab.WinRAR.installer.yaml

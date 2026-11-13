@@ -1,0 +1,24 @@
+name: Validate source
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PowerShell 5.1 parser and non-destructive XML checks
+        shell: powershell
+        run: ./scripts/Test-Project.ps1
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mock Windows disk API regression cases
+        run: |
+          gcc -O1 -fshort-wchar -maccumulate-outgoing-args Tests/guard_test.c -o /tmp/guard-test
+          /tmp/guard-test
+      - name: Mock launcher API regression cases
+        run: |
+          gcc -O1 -fshort-wchar -maccumulate-outgoing-args Tests/launcher_test.c -o /tmp/launcher-test
+          /tmp/launcher-test

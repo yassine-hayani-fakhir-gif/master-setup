@@ -1,0 +1,68 @@
+MASTER SETUP 0.15 - MODE WINPE EXPERIMENTAL / Developed by Yassine
+
+OBJECTIF
+Une cle passe de PC en PC. Chaque PC finit depuis son disque interne.
+Le bandeau affiche modele, numero de serie, UUID, session WinPE et disque cible.
+Le nom WinPE MININT n est pas le nom de l ancienne installation Windows.
+
+IMPORTANT : CE ZIP NE CONTIENT PAS UNE ISO WINPE PRECONSTRUITE.
+Le constructeur ci-dessous doit etre execute sur un PC Windows x64 administrateur.
+Installer Windows ADK (Deployment Tools) et Windows PE Add-on compatibles depuis :
+https://learn.microsoft.com/windows-hardware/get-started/adk-install
+Prevoir plusieurs Gio disponibles pour la construction + la taille de Windows.
+
+CONSTRUIRE UNE FOIS
+Dans PowerShell administrateur, depuis le dossier MasterSetup :
+.\PE\Build-MasterPE.ps1 -WindowsIso "E:\Windows.iso" -OutputFolder "C:\MasterPE-output"
+Choisir un dossier de sortie qui n existe pas encore.
+Si scripts bloques : verifier la provenance puis Debloquer le ZIP dans Proprietes
+et extraire de nouveau. Ne pas desactiver Defender ni changer la strategie globale.
+
+COPIER SUR LA CLE VENTOY EXISTANTE
+- MasterSetup-WinPE-x64.iso
+- Le dossier MasterSetupMedia cree par le constructeur.
+- Mettre Office ISO/IMG dans MasterSetupMedia\Office.
+- Mettre les installateurs autonomes EXE/MSI dans MasterSetupMedia\Apps.
+Ne pas copier WinPE-build : c est seulement le dossier de construction.
+Aucun formatage de la cle n est fait par ce constructeur.
+
+SUR CHAQUE PC (WINDOWS FONCTIONNEL, CASSE OU DISQUE VIDE)
+1. Demarrer la cle en UEFI, puis choisir MasterSetup-WinPE-x64.iso dans Ventoy.
+2. Choisir les apps locales (ou Aucune application) et Office facultatif.
+3. Choisir MasterSetupMedia\Windows\install.wim ou install.esd.
+4. Choisir edition, clavier, disque, compte et nom du nouveau PC.
+5. Verifier modele + serie + disque. Apres sauvegarde, taper EFFACER suivi du numero.
+   TOUT LE DISQUE SELECTIONNE EST EFFACE AVANT LA COPIE. Les autres disques et USB
+   ne sont pas des cibles. Une erreur apres cette etape ne restaure pas l ancien OS.
+6. Attendre USB LIBERABLE (vert) apres verification des copies.
+7. Retirer la cle puis taper o. Deplacer la cle au PC suivant.
+8. Windows est applique localement puis redemarre. Office/apps se lancent au premier
+   logon. Reporter les redemarrages demandes par les installateurs EXE.
+
+LIMITES DE CE PREMIER MODE
+- UEFI x64 seulement, disque sain selon Windows, >=64 Gio et espace pour les sources.
+- Le controle HealthStatus ne remplace pas un diagnostic materiel complet.
+- BIOS, WinRE dedie et gestion TPM/CPU Windows 11 complete non implementes ici.
+  Utiliser uniquement une version Windows compatible avec le PC cible.
+- Ne prend pas en charge un RAID/controleur sans son pilote WinPE.
+  Ajouter les pilotes signes dans Kit\Drivers\WinPE AVANT de construire l ISO.
+- Le firmware peut demander de choisir Windows Boot Manager apres installation.
+- Une ISO ADK neuve doit etre testee avec le Secure Boot du materiel utilise.
+- Aucun repartitionnement/formatage apres le bandeau vert. Ne pas relancer un ancien
+  profil Auto.ps1 sur cette machine : celui-ci effacerait les sources locales.
+- Ce mode ne reutilise pas le Windows installe ; une entree boot initiale USB est requise.
+- Le bouton installation automatique habituel garde son ancien comportement : USB
+  connectee jusqu a la fin. Seul le mode WinPE affiche USB LIBERABLE.
+- Sources conservees dans C:\MasterStage-<identifiant>, pour finalisation/reprise.
+  Ne pas supprimer avant verification Windows, Office et toutes les apps.
+- Compte/mot de passe recuperables dans les fichiers reponse. Proteger le PC et ses
+  sources locales ; aucun mot de passe n est affiche dans le journal.
+- En cas d echec avant le bandeau vert, garder/reconnecter la cle. Apres erreur DISM
+  ne pas redemarrer automatiquement ; consulter MasterStage-<id>\dism.log.
+
+TESTS A FAIRE AVANT UTILISATION REELLE
+VM UEFI jetable avec disque >=64 Gio et USB NTFS/exFAT visible comme USB.
+Tester disque vide puis Windows casse, retirer USB uniquement au bandeau vert,
+verifier demarrage puis installation Office/apps sans reconnecter USB.
+Tester aussi refus annulation, mauvais disque, disque source et copie interrompue.
+Cette version n a pas ete executee sous Windows/WinPE par son environnement de build.

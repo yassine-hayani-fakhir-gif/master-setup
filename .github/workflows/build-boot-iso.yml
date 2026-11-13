@@ -1,0 +1,59 @@
+name: Build Master Setup Boot ISO
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'PE/**'
+      - '.github/workflows/build-boot-iso.yml'
+permissions:
+  contents: read
+jobs:
+  boot-iso:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate project sources
+        shell: powershell
+        run: ./scripts/Test-Project.ps1
+      - name: Install verified Microsoft ADK and WinPE tools
+        shell: powershell
+        run: ./PE/Install-AdkForCI.ps1
+      - name: Build boot ISO without Windows or Office install media
+        shell: powershell
+        run: ./PE/Build-MasterPE.ps1 -OutputFolder C:\MasterBoot-output
+      - name: Verify boot ISO structure
+        shell: powershell
+        run: |
+          $iso='C:\MasterBoot-output\MasterSetup-WinPE-x64.iso'
+          $image=Mount-DiskImage -ImagePath $iso -PassThru
+          try {
+            $volume=@($image | Get-Volume | Where-Object DriveLetter)
+            if($volume.Count -ne 1){throw 'Ambiguous boot ISO volume.'}
+            $root=[string]$volume[0].DriveLetter+':\'
+            foreach($file in @('sources\boot.wim','EFI\Boot\bootx64.efi')){
+              if(!(Test-Path (Join-Path $root $file))){throw "Missing ISO boot file: $file"}
+            }
+            Get-WindowsImage -ImagePath (Join-Path $root 'sources\boot.wim') | Format-List
+          } finally {Dismount-DiskImage -ImagePath $iso}
+      - name: Upload boot ISO and checksums
+        uses: actions/upload-artifact@v4
+        with:
+          name: MasterSetup-Boot-0.19-experimental-x64
+          path: |
+            C:/MasterBoot-output/MasterSetup-WinPE-x64.iso
+            C:/MasterBoot-output/SHA256SUMS.txt
+            C:/MasterBoot-output/BUILD.json
+            C:/MasterBoot-output/BOOT_MODE.md
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload build diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: WinPE-build-diagnostics
+          path: |
+            C:/Windows/Logs/DISM/dism.log
+          retention-days: 7

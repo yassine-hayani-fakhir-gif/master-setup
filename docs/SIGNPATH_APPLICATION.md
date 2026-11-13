@@ -20,11 +20,11 @@ scripts, packaged without third-party installers or personal deployment profiles
 Signing eligibility and PowerShell artifact handling must be confirmed by SignPath.
 
 Remaining prerequisites:
-- Publish the source repository and a documented unsigned preview release.
+- Source repository is published. Publish a documented unsigned preview release after the Windows build passes.
 - Confirm the maintainer's GitHub identity and enable MFA.
 - Run Windows tests and publish honest results, including known limitations.
-- Add consistent product/version resources to both native executable builds.
-- Build release artifacts from source using a verifiable CI workflow.
+- Product/version resources are included for both executables; CI verifies them.
+- CI builds and packages unsigned executables from tracked source, with commit provenance and SHA-256 hashes.
 - Confirm signing roles and review responsibilities.
 - Ask SignPath whether the project has sufficient verifiable reputation; a newly
   published repository is not automatically eligible.

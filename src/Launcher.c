@@ -35,7 +35,7 @@ API void entry(void){
  k=GetTempPathW(15000,logpath);
  if(!k||k>=15000){code=GetLastError();goto fail;}
  append(logpath,L"MasterSetup-startup-");number(logpath,GetCurrentProcessId());append(logpath,L".log");
- SECURITY security={sizeof(SECURITY),0,1};
+ static SECURITY security={sizeof(SECURITY),0,1};
  log=CreateFileW(logpath,0x40000000,3,&security,2,0x80,0);
  if(log==(void*)-1){log=0;code=GetLastError();goto fail;}
  input=CreateFileW(L"NUL",0x80000000,3,&security,3,0x80,0);
@@ -44,7 +44,7 @@ API void entry(void){
  append(args,L"\"");append(args,exe);
  append(args,L"\" -NoLogo -NoProfile -STA -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File \"");
  append(args,script);append(args,L"\"");
- STARTUP si={0};PROCESS pi={0};si.cb=sizeof(si);si.flags=0x101;si.show=0;
+ static STARTUP si;static PROCESS pi;si.cb=sizeof(si);si.flags=0x101;si.show=0;
  si.input=input;si.output=log;si.error=log;
  if(!CreateProcessW(exe,args,0,0,1,0x00000010,0,dir,&si,&pi)){code=GetLastError();goto fail;}
  CloseHandle(pi.thread);

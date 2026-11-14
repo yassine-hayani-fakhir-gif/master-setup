@@ -1,7 +1,7 @@
 ﻿#Requires -RunAsAdministrator
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][string]$WindowsIso,
+    [string]$WindowsIso,
     [Parameter(Mandatory=$true)][string]$OutputFolder,
     [string]$OfficeImage,
     [string]$AppsFolder,
@@ -9,7 +9,7 @@ param(
 )
 $ErrorActionPreference='Stop'
 if(![Environment]::Is64BitProcess){throw 'PowerShell x64 requis.'}
-$WindowsIso=(Resolve-Path -LiteralPath $WindowsIso).Path
+if($WindowsIso){$WindowsIso=(Resolve-Path -LiteralPath $WindowsIso).Path}
 $OutputFolder=[IO.Path]::GetFullPath($OutputFolder)
 if($OfficeImage){
     $OfficeImage=(Resolve-Path -LiteralPath $OfficeImage).Path
@@ -34,9 +34,16 @@ $root=Split-Path $PSScriptRoot -Parent
 $work=Join-Path $OutputFolder 'WinPE-build'
 [void][IO.Directory]::CreateDirectory($OutputFolder)
 $mounted=$false;$isoMounted=$false
+function Invoke-AdkBatch([string]$Command) {
+    $batch=Join-Path $OutputFolder 'adk-step.cmd'
+    $lines=@('@echo off','setlocal DisableDelayedExpansion',('call "'+$envCmd+'"'),'if errorlevel 1 exit /b 1',$Command,'exit /b %errorlevel%')
+    [IO.File]::WriteAllLines($batch,$lines,[Text.Encoding]::Default)
+    & $env:ComSpec /d /c $batch
+    if($LASTEXITCODE -ne 0){throw "ADK command failed: $LASTEXITCODE"}
+}
 function Run-Dism([string[]]$Arguments){& dism.exe @Arguments;if($LASTEXITCODE -ne 0){throw "DISM exit $LASTEXITCODE"}}
 try {
-    & $env:ComSpec /d /s /c ('"call "'+$envCmd+'" && call "'+$copype+'" amd64 "'+$work+'""')
+    Invoke-AdkBatch ('call "'+$copype+'" amd64 "'+$work+'"')
     if($LASTEXITCODE -ne 0){throw 'Creation du dossier WinPE refusee par ADK.'}
     $mount=Join-Path $work 'mount';$wim=Join-Path $work 'media\sources\boot.wim'
     Run-Dism @('/Mount-Image',"/ImageFile:$wim",'/Index:1',"/MountDir:$mount")
@@ -56,8 +63,12 @@ try {
     [IO.File]::WriteAllLines((Join-Path $mount 'Windows\System32\startnet.cmd'),$start,[Text.Encoding]::ASCII)
     Run-Dism @('/Unmount-Image',"/MountDir:$mount",'/Commit');$mounted=$false
     $bootIso=Join-Path $OutputFolder 'MasterSetup-WinPE-x64.iso'
-    & $env:ComSpec /d /s /c ('"call "'+$envCmd+'" && call "'+$make+'" /ISO "'+$work+'" "'+$bootIso+'""')
+    Invoke-AdkBatch ('call "'+$make+'" /ISO "'+$work+'" "'+$bootIso+'"')
     if($LASTEXITCODE -ne 0){throw 'Creation ISO WinPE echouee.'}
+    . "$root\Kit\LiveCopy.ps1"
+    . "$root\Kit\PEHelpers.ps1"
+    [void][IO.Directory]::CreateDirectory((Join-Path $OutputFolder 'MasterSetupMedia\Windows'))
+    if($WindowsIso){
     $image=Get-DiskImage -ImagePath $WindowsIso
     if(!$image.Attached){$image=Mount-DiskImage -ImagePath $WindowsIso -PassThru;$isoMounted=$true}
     $volume=@($image|Get-Volume|Where-Object DriveLetter)
@@ -67,9 +78,10 @@ try {
     if($candidates.Count -ne 1){throw 'ISO standard avec un install.wim ou install.esd requis. Images SWM non gerees.'}
     $media=Join-Path $OutputFolder 'MasterSetupMedia\Windows'
     [void][IO.Directory]::CreateDirectory($media)
-    . "$root\Kit\LiveCopy.ps1"
-    . "$root\Kit\PEHelpers.ps1"
     Copy-PEVerified $candidates[0] (Join-Path $media ([IO.Path]::GetFileName($candidates[0])))
+    } else {
+        Write-Host 'BOOT ISO ONLY: provide your own Windows install.wim/install.esd in MasterSetupMedia\Windows.'
+    }
     foreach($folder in @('Office','Apps')){[void][IO.Directory]::CreateDirectory((Join-Path $OutputFolder ('MasterSetupMedia\'+$folder)))}
     if($OfficeImage){Copy-PEVerified $OfficeImage (Join-Path $OutputFolder ('MasterSetupMedia\Office\'+[IO.Path]::GetFileName($OfficeImage)))}
     if($AppsFolder){
@@ -77,6 +89,15 @@ try {
             Copy-PEVerified $package.FullName (Join-Path $OutputFolder ('MasterSetupMedia\Apps\'+$package.Name))
         }
     }
+    $isoHash=(Get-FileHash -LiteralPath $bootIso -Algorithm SHA256).Hash.ToLowerInvariant()
+    "$isoHash  MasterSetup-WinPE-x64.iso" | Set-Content (Join-Path $OutputFolder 'SHA256SUMS.txt') -Encoding ASCII
+    Copy-Item (Join-Path $root 'docs\BOOT_MODE.md') (Join-Path $OutputFolder 'BOOT_MODE.md')
+    @{
+        Application='Master Setup Boot Preview';Version='0.19-experimental'
+        SourceCommit=$env:GITHUB_SHA;WorkflowRun=$env:GITHUB_RUN_ID
+        BuiltUtc=[DateTime]::UtcNow.ToString('o');IncludesWindowsInstallImage=[bool]$WindowsIso
+        ApplicationSigning='Unsigned';BootTest='Not performed'
+    } | ConvertTo-Json | Set-Content (Join-Path $OutputFolder 'BUILD.json') -Encoding UTF8
     Write-Host 'READY: copy MasterSetup-WinPE-x64.iso and MasterSetupMedia onto your existing Ventoy data partition.'
     Write-Host 'Add Office ISO/IMG and standalone app installers to their folders. Boot this ISO in UEFI mode.'
     Write-Host 'The WinPE-build folder is build workspace only; do not copy it to USB.'

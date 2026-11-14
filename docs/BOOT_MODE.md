@@ -28,7 +28,9 @@ it offline. Office media must also contain the required installation payload.
 Copy MasterSetup-WinPE-x64.iso and MasterSetupMedia onto the existing Ventoy data
 partition (NTFS/exFAT). Do not copy WinPE-build. The boot ISO must be tested with
 your Ventoy version, firmware and Secure Boot configuration before field use.
-No prebuilt Microsoft WinPE ISO is distributed by this source repository.
+The Build Master Setup Boot ISO workflow can produce a boot-only ISO artifact.
+It includes WinPE and Master Setup, but no Windows installation image, Office or apps.
+Generating an ISO is not evidence of a successful boot or end-to-end deployment.
 
 ## Each computer
 
@@ -86,3 +88,21 @@ A real ADK build and boot/deployment are **not yet validated** by CI.
 - Multiple internal disks, storage-driver requirements and actual target firmware.
 
 Do not deploy across a customer fleet until these cases pass on disposable systems.
+
+## Boot-only ISO
+
+Run `PE/Build-MasterPE.ps1 -OutputFolder "C:\MasterBoot-output"` without WindowsIso
+to build just the boot environment. The GitHub workflow does this automatically.
+Download the successful run's MasterSetup-Boot-0.19-experimental-x64 artifact,
+extract it, and copy MasterSetup-WinPE-x64.iso onto Ventoy.
+Mount your own Windows ISO on a working PC and copy sources/install.wim or
+sources/install.esd to USB under MasterSetupMedia/Windows. Create Office and Apps
+folders alongside it for your own full installers. Split install.swm is unsupported.
+Compare the ISO SHA-256 with SHA256SUMS.txt before testing.
+
+First boot test: disposable UEFI VMware VM, 4 GiB RAM minimum, blank virtual disk
+of at least 64 GiB plus enough room for all packages. Attach the ISO as CD/DVD.
+For deployment, also pass through a separate NTFS/exFAT USB containing the media;
+this preview deliberately refuses a virtual SATA disk as the installer source.
+Do not attach a host physical disk as the target. Seeing the interface is only
+the first test; follow the full validation matrix above before customer use.

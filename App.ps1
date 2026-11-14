@@ -15,6 +15,17 @@ if ($parseIssues.Count) {
     return
 }
 
+. "$PSScriptRoot\Kit\Welcome.ps1"
+$startupRoute=Show-MasterWelcome -IsWinPE $false
+if(!$startupRoute){return}
+if($startupRoute -eq 'BootGuide'){
+    [void][Windows.Forms.MessageBox]::Show((M 'Copy MasterSetup-WinPE-x64.iso to Ventoy, restart this PC and select the ISO from Boot Menu. Back up files before clean installation.'),'Master Setup')
+    return
+}
+if($startupRoute -in 'Auto','Apps'){
+    Start-Process "$PSHOME\powershell.exe" -Verb RunAs -ArgumentList ('-STA -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File "'+(Join-Path $PSScriptRoot 'Kit\Suivi.ps1')+'" -Task '+$startupRoute)
+    return
+}
 $kit = Join-Path $PSScriptRoot 'Kit'
 $navy = '#EAF0FF'
 $teal = '#53E4D0'

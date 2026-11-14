@@ -368,5 +368,75 @@
     "fr": "Aucun",
     "ar": "لا شيء",
     "es": "Ninguno"
+  },
+  "Welcome": {
+    "fr": "Bienvenue",
+    "ar": "مرحباً",
+    "es": "Bienvenido"
+  },
+  "Back": {
+    "fr": "Retour",
+    "ar": "رجوع",
+    "es": "Atrás"
+  },
+  "Choose how you want to work. Nothing is changed until you confirm.": {
+    "fr": "Choisissez votre mode de travail. Aucune modification avant confirmation.",
+    "ar": "اختر طريقة العمل. لن يتم تغيير أي شيء قبل تأكيدك.",
+    "es": "Elige cómo trabajar. No se cambia nada hasta que confirmes."
+  },
+  "Open Master Setup": {
+    "fr": "Ouvrir Master Setup",
+    "ar": "فتح Master Setup",
+    "es": "Abrir Master Setup"
+  },
+  "View this computer and choose installation, applications or resume.": {
+    "fr": "Afficher ce PC et choisir installation, applications ou reprise.",
+    "ar": "اعرض معلومات الجهاز واختر التثبيت أو التطبيقات أو الاستئناف.",
+    "es": "Ver este equipo y elegir instalación, aplicaciones o reanudar."
+  },
+  "Normal installation": {
+    "fr": "Installation normale",
+    "ar": "تثبيت عادي",
+    "es": "Instalación normal"
+  },
+  "Prepare Windows, Office and applications from a working Windows system.": {
+    "fr": "Préparer Windows, Office et les applications depuis un Windows fonctionnel.",
+    "ar": "حضّر Windows وOffice والتطبيقات من نظام Windows يعمل.",
+    "es": "Preparar Windows, Office y aplicaciones desde Windows en funcionamiento."
+  },
+  "Install applications only": {
+    "fr": "Installer uniquement les applications",
+    "ar": "تثبيت التطبيقات فقط",
+    "es": "Instalar solo aplicaciones"
+  },
+  "Install selected packages on this PC without reinstalling Windows.": {
+    "fr": "Installer les logiciels choisis sans réinstaller Windows.",
+    "ar": "ثبّت التطبيقات المختارة دون إعادة تثبيت Windows.",
+    "es": "Instalar los paquetes seleccionados sin reinstalar Windows."
+  },
+  "Windows unavailable / blank disk": {
+    "fr": "Windows inaccessible / disque vide",
+    "ar": "Windows غير متاح / قرص فارغ",
+    "es": "Windows no disponible / disco vacío"
+  },
+  "Restart from the Master Setup Boot ISO on Ventoy. This option shows instructions only.": {
+    "fr": "Redémarrer sur Master Setup Boot ISO via Ventoy. Cette option affiche uniquement les instructions.",
+    "ar": "أقلع من Master Setup Boot ISO عبر Ventoy. يعرض هذا الخيار التعليمات فقط.",
+    "es": "Reiniciar desde Master Setup Boot ISO en Ventoy. Esta opción solo muestra instrucciones."
+  },
+  "Clean installation from boot media. The selected INTERNAL disk is erased after confirmation.": {
+    "fr": "Installation propre depuis le support de démarrage. Le disque INTERNE choisi sera effacé après confirmation.",
+    "ar": "تثبيت جديد من وسيط الإقلاع. سيتم مسح القرص الداخلي المختار بعد التأكيد.",
+    "es": "Instalación limpia desde el medio de arranque. Se borra el disco INTERNO elegido tras confirmar."
+  },
+  "USB can be removed only after Windows and internal boot preparation. External USB target disks are not supported.": {
+    "fr": "Retirer la clé uniquement après préparation de Windows et du démarrage interne. Les disques cibles USB externes ne sont pas pris en charge.",
+    "ar": "لا تنزع USB حتى تجهيز Windows والإقلاع الداخلي. التثبيت على قرص USB خارجي غير مدعوم.",
+    "es": "Retira el USB solo tras preparar Windows y el arranque interno. No se admiten discos USB externos como destino."
+  },
+  "Copy MasterSetup-WinPE-x64.iso to Ventoy, restart this PC and select the ISO from Boot Menu. Back up files before clean installation.": {
+    "fr": "Copier MasterSetup-WinPE-x64.iso sur Ventoy, redémarrer et choisir cette ISO dans le menu de démarrage. Sauvegarder les fichiers avant installation.",
+    "ar": "انسخ MasterSetup-WinPE-x64.iso إلى Ventoy ثم أعد التشغيل واختر ISO من قائمة الإقلاع. احتفظ بنسخة احتياطية قبل التثبيت.",
+    "es": "Copia MasterSetup-WinPE-x64.iso a Ventoy, reinicia y elige la ISO desde el menú de arranque. Haz una copia de seguridad antes de instalar."
   }
 }

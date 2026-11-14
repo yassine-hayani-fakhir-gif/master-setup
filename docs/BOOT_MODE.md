@@ -106,3 +106,13 @@ For deployment, also pass through a separate NTFS/exFAT USB containing the media
 this preview deliberately refuses a virtual SATA disk as the installer source.
 Do not attach a host physical disk as the target. Seeing the interface is only
 the first test; follow the full validation matrix above before customer use.
+
+## Startup wizard
+
+Both the Windows app and boot ISO now start with a language dialog (English,
+French, Arabic, Spanish), followed by the Master Setup welcome and workflow page.
+Back returns to the language dialog; Cancel exits without starting deployment.
+Windows offers the dashboard, normal installation, apps only and boot instructions.
+WinPE offers clean installation onto a supported internal disk. External USB target
+disks remain unsupported and rejected. The existing disk review is still required.
+The new dialogs need visual testing in WinPE, particularly fonts and Arabic rendering.

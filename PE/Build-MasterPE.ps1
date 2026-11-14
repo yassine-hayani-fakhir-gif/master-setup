@@ -57,9 +57,10 @@ try {
     $app=Join-Path $mount 'MasterSetup'
     [void][IO.Directory]::CreateDirectory($app)
     Copy-Item -LiteralPath (Join-Path $root 'Kit') -Destination (Join-Path $app 'Kit') -Recurse
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'Boot.ps1') -Destination (Join-Path $app 'Boot.ps1')
     $drivers=Join-Path $root 'Kit\Drivers\WinPE'
     if(@(Get-ChildItem -LiteralPath $drivers -Filter *.inf -Recurse -ErrorAction SilentlyContinue).Count){Run-Dism @("/Image:$mount",'/Add-Driver',"/Driver:$drivers",'/Recurse')}
-    $start=@('@echo off','wpeinit','powershell.exe -NoLogo -NoProfile -STA -ExecutionPolicy RemoteSigned -File X:\MasterSetup\Kit\Suivi.ps1 -Task DeployPE','echo Master Setup closed. Logs are on X: or in the local MasterStage folder.','cmd.exe')
+    $start=@('@echo off','wpeinit','powershell.exe -NoLogo -NoProfile -STA -ExecutionPolicy RemoteSigned -File X:\MasterSetup\Boot.ps1','echo Master Setup closed. Logs are on X: or in the local MasterStage folder.','cmd.exe')
     [IO.File]::WriteAllLines((Join-Path $mount 'Windows\System32\startnet.cmd'),$start,[Text.Encoding]::ASCII)
     Run-Dism @('/Unmount-Image',"/MountDir:$mount",'/Commit');$mounted=$false
     $bootIso=Join-Path $OutputFolder 'MasterSetup-WinPE-x64.iso'

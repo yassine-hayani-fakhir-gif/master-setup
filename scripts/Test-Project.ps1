@@ -34,3 +34,5 @@ Write-Host 'Source parser and non-destructive regression checks passed.'
 & "$root\Tests\LanguageChecks.ps1"
 
 & "$root\Tests\WelcomeChecks.ps1"
+
+& "$root\Tests\StepWizardChecks.ps1"

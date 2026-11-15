@@ -5,6 +5,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [Windows.Forms.Application]::EnableVisualStyles()
 . "$PSScriptRoot\Language.ps1"
+. "$PSScriptRoot\StepWizard.ps1"
 $lock=New-Object Threading.Mutex($false,'Local\AtelierWin8Execution')
 try { $acquired=$lock.WaitOne(0) } catch [Threading.AbandonedMutexException] { $acquired=$true }
 if (!$acquired) { [void][Windows.Forms.MessageBox]::Show('A Master Setup operation is already running.'); return }
@@ -154,7 +155,7 @@ $body={
             if ($_ -is [Management.Automation.WarningRecord]) { $state.Warnings=$true;Record ('WARNING: '+[string]$_) } else {Record ([string]$_)}
         }
         if ($state.Cancelled) { Record 'Operation cancelled.' } else { Record 'Task finished. Open the log for detailed results.' }
-    } catch { $state.Failed=$true; Record ("ERROR: "+$_.Exception.Message+"  "+$_.InvocationInfo.PositionMessage) }
+    } catch { if($state.Cancelled){Record 'Operation cancelled.'}else{$state.Failed=$true; Record ("ERROR: "+$_.Exception.Message+"  "+$_.InvocationInfo.PositionMessage)} }
 }
 [void]$ps.AddScript($body.ToString()).AddArgument((Join-Path $PSScriptRoot ($Task+'.ps1'))).AddArgument($state).AddArgument($queue).AddArgument($wake).AddArgument($logPath)
 $job=$ps.BeginInvoke()
@@ -231,15 +232,16 @@ $timer.Add_Tick({
             Enable-MasterLanguage $reviewForm
             try {$state.Answer=if($reviewForm.ShowDialog($f) -eq 'Yes'){'yes'}else{'no'}}
             finally {$reviewForm.Dispose();[void]$wake.Set()}
-        } elseif ($p.Kind -eq 'file') {
-            $dialog=New-Object Windows.Forms.OpenFileDialog
-            $dialog.Title=(M $p.Title); $dialog.Filter=$p.Filter
-            try {
-                if ($dialog.ShowDialog($f) -eq 'OK') { $state.Answer=$dialog.FileName } else { $state.Answer=$null }
-            } finally { $dialog.Dispose(); [void]$wake.Set() }
         } else {
-            $stageLabel.Text='Your input'; $label.Text=(M $p.Title); $field.UseSystemPasswordChar=($p.Kind -eq 'secret')
-            $field.Enabled=$true; $ok.Enabled=$true; $field.Focus() | Out-Null
+            $timer.Stop()
+            try {
+                $answer=Show-MasterStepDialog $f $p $box.Text
+                if($answer.Cancelled){$state.Abort=$true;$state.Cancelled=$true}
+                else {$state.Answer=$answer.Value}
+            } catch {
+                $state.Abort=$true;$state.Cancelled=$true
+                [void][Windows.Forms.MessageBox]::Show($f,$_.Exception.Message,'Master Setup')
+            } finally {[void]$wake.Set();$timer.Start()}
         }
     }
     if($field.Enabled){$stageLabel.Text='Your input';$progress.Style='Continuous';$progress.Value=0;$metrics.Text='Choices are case-insensitive. Password case is preserved.'}

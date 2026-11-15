@@ -438,5 +438,45 @@
     "fr": "Copier MasterSetup-WinPE-x64.iso sur Ventoy, redémarrer et choisir cette ISO dans le menu de démarrage. Sauvegarder les fichiers avant installation.",
     "ar": "انسخ MasterSetup-WinPE-x64.iso إلى Ventoy ثم أعد التشغيل واختر ISO من قائمة الإقلاع. احتفظ بنسخة احتياطية قبل التثبيت.",
     "es": "Copia MasterSetup-WinPE-x64.iso a Ventoy, reinicia y elige la ISO desde el menú de arranque. Haz una copia de seguridad antes de instalar."
+  },
+  "Prepare installation": {
+    "fr": "Préparer l’installation",
+    "ar": "تحضير التثبيت",
+    "es": "Preparar la instalación"
+  },
+  "Next": {
+    "fr": "Suivant",
+    "ar": "التالي",
+    "es": "Siguiente"
+  },
+  "Browse...": {
+    "fr": "Parcourir...",
+    "ar": "تصفح...",
+    "es": "Examinar..."
+  },
+  "Skip Office": {
+    "fr": "Ignorer Office",
+    "ar": "تخطي Office",
+    "es": "Omitir Office"
+  },
+  "Choose the file, then review your selection.": {
+    "fr": "Choisissez le fichier, puis vérifiez votre sélection.",
+    "ar": "اختر الملف ثم راجع اختيارك.",
+    "es": "Elige el archivo y revisa tu selección."
+  },
+  "Password is optional. Leave empty for no password. Letter case is preserved.": {
+    "fr": "Le mot de passe est facultatif. Laissez vide pour aucun mot de passe. La casse est conservée.",
+    "ar": "كلمة المرور اختيارية. اتركها فارغة دون كلمة مرور. يتم الحفاظ على حالة الأحرف.",
+    "es": "La contraseña es opcional. Déjala vacía para no usarla. Se respetan las mayúsculas."
+  },
+  "Choose an existing file.": {
+    "fr": "Choisissez un fichier existant.",
+    "ar": "اختر ملفاً موجوداً.",
+    "es": "Elige un archivo existente."
+  },
+  "Review this selection:": {
+    "fr": "Vérifiez cette sélection :",
+    "ar": "راجع هذا الاختيار:",
+    "es": "Revisa esta selección:"
   }
 }

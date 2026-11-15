@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'PE/**'
+      - 'Kit/**'
       - '.github/workflows/build-boot-iso.yml'
 permissions:
   contents: read

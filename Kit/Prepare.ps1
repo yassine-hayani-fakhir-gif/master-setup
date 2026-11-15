@@ -55,7 +55,7 @@ $autoXml
 try {
     New-Item -ItemType Directory -Path $payload -Force | Out-Null
     Write-Host 'Writing account and deployment files...'
-    foreach ($file in 'Finish.cmd','Finish.ps1','Suivi.ps1','InstallHelpers.ps1','LocalApps.ps1','OfficeCompletion.ps1','Language.ps1','languages.json') { Copy-Item (Join-Path $PSScriptRoot $file) $payload }
+    foreach ($file in 'Finish.cmd','Finish.ps1','Suivi.ps1','StepWizard.ps1','InstallHelpers.ps1','LocalApps.ps1','OfficeCompletion.ps1','Language.ps1','languages.json') { Copy-Item (Join-Path $PSScriptRoot $file) $payload }
     Set-Content -LiteralPath (Join-Path $payload 'ui-language.txt') -Value $(if($env:MASTERSETUP_LANG -in 'en','fr','ar','es'){$env:MASTERSETUP_LANG}else{'en'})
     Set-Content -LiteralPath (Join-Path $payload 'activation.txt') -Value $Activation
     [IO.File]::WriteAllText($answer, $xml, [Text.UTF8Encoding]::new($false))

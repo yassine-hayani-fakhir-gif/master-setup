@@ -24,6 +24,22 @@ function Show-MasterStepDialog($Owner,$Prompt,[string]$Context) {
     $details=New-Object Windows.Forms.TextBox;$details.Dock='Fill';$details.Multiline=$true;$details.ReadOnly=$true;$details.ScrollBars='Both'
     $details.BackColor=[Drawing.ColorTranslator]::FromHtml('#14223A');$details.ForeColor=[Drawing.ColorTranslator]::FromHtml('#B9CFFF');$details.BorderStyle='None'
     $details.Text=if($Prompt.Kind -eq 'file'){M 'Choose the file, then review your selection.'}elseif($Prompt.Kind -eq 'secret'){M 'Password is optional. Leave empty for no password. Letter case is preserved.'}else{$Context}
+    $choices=New-Object Windows.Forms.ListView
+    $choices.Dock='Fill';$choices.View='Details';$choices.FullRowSelect=$true;$choices.MultiSelect=$false;$choices.HideSelection=$false
+    [void]$choices.Columns.Add('Disk',220);[void]$choices.Columns.Add('Capacity / connection / identity',650)
+    if($Prompt.Kind -eq 'choice'){
+        $entryRow.Visible=$false;$details.Visible=$false;$next.Enabled=$false
+        foreach($option in @($Prompt.Filter | ConvertFrom-Json)){
+            $item=New-Object Windows.Forms.ListViewItem([string]$option.Title)
+            [void]$item.SubItems.Add([string]$option.Detail);$item.Tag=$option
+            if(!$option.Enabled){$item.ForeColor=[Drawing.Color]::Gray}
+            [void]$choices.Items.Add($item)
+        }
+        $choices.Add_SelectedIndexChanged({
+            $next.Enabled=($choices.SelectedItems.Count -eq 1 -and $choices.SelectedItems[0].Tag.Enabled)
+        })
+        $body.Controls.Add($choices)
+    } else {$choices.Visible=$false}
     $body.Controls.Add($details);$body.Controls.Add($entryRow)
     $form.Controls.Add($body);$form.Controls.Add($footer);$form.Controls.Add($header)
     $form.CancelButton=$cancel;$form.AcceptButton=$next
@@ -37,15 +53,22 @@ function Show-MasterStepDialog($Owner,$Prompt,[string]$Context) {
         if($valueBox.Text){$picker.FileName=$valueBox.Text}
         try {if($picker.ShowDialog($form) -eq 'OK'){$valueBox.Text=$picker.FileName}} finally {$picker.Dispose()}
     })
-    $back.Add_Click({$page.Review=$false;$entryRow.Visible=$true;$details.Text=$page.Original;$back.Enabled=$false;$next.Text=M 'Next';$valueBox.Focus()|Out-Null})
+    $back.Add_Click({$page.Review=$false;$entryRow.Visible=($Prompt.Kind -ne 'choice');$choices.Visible=($Prompt.Kind -eq 'choice');$details.Visible=($Prompt.Kind -ne 'choice');$details.Text=$page.Original;$back.Enabled=$false;$next.Text=M 'Next';$valueBox.Focus()|Out-Null})
     $next.Add_Click({
         if($Prompt.Kind -eq 'secret'){$form.DialogResult='OK';$form.Close();return}
         if(!$page.Review){
+            if($Prompt.Kind -eq 'choice'){
+                if($choices.SelectedItems.Count -ne 1 -or !$choices.SelectedItems[0].Tag.Enabled){return}
+                $option=$choices.SelectedItems[0].Tag
+                $valueBox.Text=[string]$option.Value
+                $page.Value=$option.Title+"`r`n"+$option.Detail
+                $choices.Visible=$false;$details.Visible=$true
+            }
             if($Prompt.Kind -eq 'file' -and ([string]::IsNullOrWhiteSpace($valueBox.Text) -or !(Test-Path -LiteralPath $valueBox.Text -PathType Leaf))){
                 [void][Windows.Forms.MessageBox]::Show($form,(M 'Choose an existing file.'));return
             }
             $page.Review=$true;$entryRow.Visible=$false;$back.Enabled=$true;$next.Text=M 'Continue'
-            $details.Text=(M 'Review this selection:')+"`r`n`r`n"+$valueBox.Text
+            $details.Text=(M 'Review this selection:')+"`r`n`r`n"+$(if($Prompt.Kind -eq 'choice'){$page.Value}else{$valueBox.Text})
         } else {$form.DialogResult='OK';$form.Close()}
     })
     $form.Add_Shown({$valueBox.Focus()|Out-Null;$details.SelectionStart=$details.TextLength;$details.ScrollToCaret()})

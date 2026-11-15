@@ -178,6 +178,9 @@ $languagePicker.Add_SelectedIndexChanged({
     catch {[void][Windows.Forms.MessageBox]::Show($form,('Language change failed: '+$_.Exception.Message),'Master Setup')}
 })
 $header.Controls.Add($languagePicker);$languagePicker.BringToFront()
+# Anchor child labels/buttons and reflow the dashboard after Windows applies DPI scaling.
+. "$PSScriptRoot\Kit\DashboardLayout.ps1"
+$form.Add_Shown({Initialize-MasterDashboardLayout $form $canvas $header})
 Enable-MasterLanguage $form
 [void]$form.ShowDialog()
 

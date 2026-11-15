@@ -41,7 +41,7 @@ foreach ($d in $disks) {
     Write-Host ("{0} : {1} | {2:N2} GiB | {3}/{4} | serial: {5} | {6}" -f $d.Number,$d.FriendlyName,($d.Size/1GB),$d.BusType,$d.PartitionStyle,$d.SerialNumber,$role)
 }
 while ($true) {
-    $chosen=(Read-Host 'INTERNAL disk number to erase and use for Windows (n = cancel)').Trim()
+    $chosen=Get-AtelierDiskChoice $disks
     if($chosen -ieq 'n'){$state.Cancelled=$true;return}
     $match=@($disks | Where-Object { [string]$_.Number -eq $chosen })
     if($match.Count -ne 1){Write-Host 'Unknown number. Correct only this selection.';continue}

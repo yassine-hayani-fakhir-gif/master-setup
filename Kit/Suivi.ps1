@@ -132,6 +132,14 @@ $body={
         $state.Answer=$null
         return $value
     }
+    function Get-AtelierDiskChoice($disks) {
+        $options=@($disks | ForEach-Object {
+            $blocked=($_.BusType -eq 'USB' -or $_.IsOffline -or $_.IsReadOnly -or $_.Size -lt 32GB)
+            $role=if($_.BusType -eq 'USB'){'USB - protected'}elseif($_.IsOffline){'Offline'}elseif($_.IsReadOnly){'Read only'}elseif($_.Size -lt 32GB){'Too small'}elseif($_.IsBoot){'Current Windows'}else{'Internal disk'}
+            [pscustomobject]@{Value=[string]$_.Number;Title=[string]$_.FriendlyName;Enabled=(!$blocked);Detail=('{0:N2} GiB | {1} / {2} | {3} | Serial: {4}' -f ($_.Size/1GB),$_.BusType,$_.PartitionStyle,$role,$_.SerialNumber)}
+        })
+        Ask 'choice' 'Select the disk for Windows' (ConvertTo-Json -InputObject $options -Compress)
+    }
     function Read-Host([string]$Prompt,[switch]$AsSecureString) {
         $kind=if ($AsSecureString) {'secret'} else {'text'}
         $value=Ask $kind $Prompt ''

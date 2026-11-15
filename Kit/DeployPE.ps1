@@ -40,7 +40,7 @@ if($state.Options.AppMethod -eq 'Local'){
 $disks=@(Get-Disk | Sort-Object Number)
 foreach($disk in $disks){Write-Host ("{0} : {1} | {2:N1} GiB | {3} | serie {4} | {5}" -f $disk.Number,$disk.FriendlyName,($disk.Size/1GB),$disk.BusType,$disk.SerialNumber,$disk.HealthStatus)}
 while($true){
-    $choice=Read-Host 'INTERNAL disk number to ERASE (n = cancel)'
+    $choice=Get-AtelierDiskChoice $disks
     if($choice -ieq 'n'){$state.Cancelled=$true;return}
     $diskMatches=@($disks|Where-Object {[string]$_.Number -eq $choice})
     if($diskMatches.Count -ne 1){Write-Host 'Unknown number.';continue}

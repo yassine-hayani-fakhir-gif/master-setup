@@ -29,7 +29,8 @@ function Show-MasterStepDialog($Owner,$Prompt,[string]$Context) {
     [void]$choices.Columns.Add('Disk',220);[void]$choices.Columns.Add('Capacity / connection / identity',650)
     if($Prompt.Kind -eq 'choice'){
         $entryRow.Visible=$false;$details.Visible=$false;$next.Enabled=$false
-        foreach($option in @($Prompt.Filter | ConvertFrom-Json)){
+        $decodedOptions=$Prompt.Filter | ConvertFrom-Json
+        foreach($option in $decodedOptions){
             $item=New-Object Windows.Forms.ListViewItem([string]$option.Title)
             [void]$item.SubItems.Add([string]$option.Detail);$item.Tag=$option
             if(!$option.Enabled){$item.ForeColor=[Drawing.Color]::Gray}

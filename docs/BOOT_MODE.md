@@ -116,3 +116,10 @@ Windows offers the dashboard, normal installation, apps only and boot instructio
 WinPE offers clean installation onto a supported internal disk. External USB target
 disks remain unsupported and rejected. The existing disk review is still required.
 The new dialogs need visual testing in WinPE, particularly fonts and Arabic rendering.
+
+Preparation prompts now open matching navy/teal pages for media, names and other
+inputs. Non-secret inputs have a review page; Back edits the current input without
+replaying previous operations. Passwords stay masked and are not shown in review.
+Cancel stops the task; optional Office has an explicit Skip Office button.
+This is not a full cross-step Back implementation: earlier disk/media stages are
+not replayed. The final erase confirmation remains separate and defaults to Cancel.
